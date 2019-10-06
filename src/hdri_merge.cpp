@@ -2,6 +2,8 @@
 #include <fstream>
 #include <OpenImageIO/imageio.h>
 #include "bracket.h"
+#include "merge_alg.h"
+#include "debug_exp.h"
 
 using namespace std;
 using namespace OIIO;
@@ -69,6 +71,7 @@ int main(int argc, char *argv[]) {
         input[i]->channels = spec.nchannels;
         in->close();
     }
+    float *out_image = merge_brackets(input, brackets_len);
     auto out = ImageOutput::create(argv[2]);
     if (!out) {
         cout << "Cannot write to image: " << argv[2];
@@ -82,7 +85,7 @@ int main(int argc, char *argv[]) {
         "A"
     };
     out->open(argv[2],out_spec);
-    if(!out->write_image(TypeDesc::FLOAT, input[0]->image)) {
+    if(!out->write_image(TypeDesc::FLOAT, out_image)) {
         cerr << "Could not write pixels to: " << argv[2] << endl;
         cerr << out->geterror();
     }
