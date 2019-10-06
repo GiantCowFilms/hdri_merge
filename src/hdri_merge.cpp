@@ -17,7 +17,7 @@ bracket ** readConfig(string config_loc, size_t* config_length) {
         if (line.rfind("bracket:") == 0) {
             brackets[order] = new bracket();
             // Extend brackets by 7
-            if (order >= *config_length) {
+            if (order >= *config_length - 1) {
                 *config_length += 7;
                 bracket ** new_brackets = new bracket*[*config_length];
                 free(brackets);
