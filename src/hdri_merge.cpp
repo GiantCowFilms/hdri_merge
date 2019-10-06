@@ -20,6 +20,7 @@ bracket ** readConfig(string config_loc, size_t* config_length) {
             if (order >= *config_length - 1) {
                 *config_length += 7;
                 bracket ** new_brackets = new bracket*[*config_length];
+                memcpy(new_brackets,brackets,(*config_length -7) * sizeof(bracket *));
                 free(brackets);
                 brackets = new_brackets;
             }
