@@ -1,1 +1,5 @@
 bin/
+# These contains hardcoded paths currently. That must be fixed before checking in.
+.vscode/
+example/
+build.bat
