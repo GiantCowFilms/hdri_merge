@@ -49,6 +49,14 @@ bracket ** readConfig(string config_loc, size_t* config_length) {
 int main(int argc, char *argv[]) {
     cout << "HDRI Merge." << endl;
     size_t brackets_len;
+    if (argc < 2) {
+        cerr << "Missing first parameter: location of HDRI config file.";
+        return 1;
+    }
+    if (argc < 3) {
+        cerr << "Missing second parameter: output file.";
+        return 1;
+    }
     auto input = readConfig(argv[1], &brackets_len);
     ImageSpec out_spec = ImageSpec();
     for (int i = 0; i < brackets_len; i++) {
