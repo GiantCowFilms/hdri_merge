@@ -3,14 +3,14 @@
 #include "bracket.h"
 using namespace std;
 float weightFromPixel(float pixel) {
-    float clip = 0.05;
-    float weight =  1.0 - abs(0.5 - ((pixel - clip) * (2.0 - clip * 2.0))) * 2.0;
+    float clip = 0.05f;
+    float weight =  1.0f - abs(0.5f - ((pixel - clip) * (2.0f - clip * 2.0f))) * 2.0f;
     return max(0.0f,weight);
 }
 
 void initalize_brackets(bracket ** brackets, int brackets_length) {
     for (int b= 0; b < brackets_length; b++) {
-        brackets[b]->ev = log( ( pow(brackets[b]->fstop,2) /brackets[b]->shutter) ) / log(2.0) + brackets[b]->filter;
+        brackets[b]->ev = log( ( pow(brackets[b]->fstop,2) /brackets[b]->shutter) ) / log(2.0f) + brackets[b]->filter;
     }
 }
 

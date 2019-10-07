@@ -20,9 +20,6 @@ float * debug_exp(bracket ** brackets, int brackets_length) {
     float * pixels = new float[
         pixels_length
     ] { 0.0 };
-    float * weights = new float[
-        pixels_length
-    ] { 0.0 };
 
     //Do merge
     for (int p = 0; p < pixels_length; p++) {

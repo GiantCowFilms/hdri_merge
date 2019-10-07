@@ -16,10 +16,10 @@ bracket ** readConfig(string config_loc, size_t* config_length) {
     }
     *config_length = 7;
     bracket ** brackets = new bracket*[*config_length];
-    bracket *cur_bracket;
+    bracket *cur_bracket = NULL;
     int order = 0;
     for(std::string line; getline(config_file, line); ) {
-        if (line.rfind("bracket:") == 0) {
+        if (line.rfind("bracket:") == 0 || cur_bracket == NULL) {
             brackets[order] = new bracket();
             // Extend brackets by 7
             if (order >= *config_length - 1) {
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
         input[i]->channels = spec.nchannels;
         in->close();
     }
-    float *out_image = merge_brackets(input, brackets_len);
+    float *out_image = merge_brackets(input, (size_t)brackets_len);
     auto out = ImageOutput::create(argv[2]);
     if (!out) {
         cout << "Cannot write to image: " << argv[2];
