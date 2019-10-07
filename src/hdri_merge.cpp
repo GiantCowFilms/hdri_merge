@@ -11,6 +11,9 @@ using namespace OIIO;
 bracket ** readConfig(string config_loc, size_t* config_length) {
     fstream config_file;
     config_file.open(config_loc);
+    if (config_file.bad()) {
+        cerr << "Error reading HDRI config: " << strerror(errno);
+    }
     *config_length = 7;
     bracket ** brackets = new bracket*[*config_length];
     bracket *cur_bracket;
@@ -38,6 +41,7 @@ bracket ** readConfig(string config_loc, size_t* config_length) {
             cur_bracket->file_name = line.substr(3);
         }
     }
+    config_file.close();
     *config_length = order;
     return brackets;
 }
@@ -46,13 +50,13 @@ int main(int argc, char *argv[]) {
     cout << "HDRI Merge." << endl;
     size_t brackets_len;
     auto input = readConfig(argv[1], &brackets_len);
-    ImageSpec &out_spec = ImageSpec();
+    ImageSpec out_spec = ImageSpec();
     for (int i = 0; i < brackets_len; i++) {
         const char * safe_filename = input[i]->file_name.c_str();
         auto in = ImageInput::open(safe_filename);
         if (!in) {
             cerr << OpenImageIO_v2_1::geterror();
-            //cerr << "Could not read image: " << input[i]->file_name << endl;
+            cerr << "Could not read image: " << input[i]->file_name << endl;
             return 1;
         }
         const ImageSpec &spec = in->spec();

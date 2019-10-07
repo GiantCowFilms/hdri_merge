@@ -52,5 +52,6 @@ float * merge_brackets(bracket ** brackets, int brackets_length) {
         }
     }
     // either pixels or weights should be freed
+    delete [] weights;
     return pixels;
 }
