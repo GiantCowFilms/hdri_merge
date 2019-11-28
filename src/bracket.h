@@ -13,6 +13,9 @@
         int height;
         int channels;
         std::string file_name;
+        ~bracket () {
+            delete [] image;
+        }
     };
 #endif
 

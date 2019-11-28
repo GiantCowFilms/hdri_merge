@@ -26,7 +26,7 @@ bracket ** readConfig(string config_loc, size_t* config_length) {
                 *config_length += 7;
                 bracket ** new_brackets = new bracket*[*config_length];
                 memcpy(new_brackets,brackets,(*config_length -7) * sizeof(bracket *));
-                free(brackets);
+                delete [] brackets;
                 brackets = new_brackets;
             }
             cur_bracket = brackets[order];
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
         if (i == 0) {
             out_spec.copy_dimensions(spec);
         }
-        float *image = (float*)malloc(spec.width * spec.height * spec.nchannels * sizeof(float));
+        float *image = new float [spec.width * spec.height * spec.nchannels * sizeof(float)];
         if(!in->read_image(TypeDesc::FLOAT,image)) {
             cerr << "Could not read pixels from: " << input[i]->file_name << endl;
             cerr << in->geterror();
@@ -102,5 +102,10 @@ int main(int argc, char *argv[]) {
         cerr << out->geterror();
     }
     out->close();
+    delete [] out_image;
+    for (int i = 0; i < brackets_len; i++) {
+        delete input[i];
+    }
+    delete[] input;
     return 0;
 }
